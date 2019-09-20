@@ -1,0 +1,21 @@
+#+title: Apuntes de Graficas
+#+author: Sonia Arely Sanchez Gonzalez
+
+* Definición de gráficas
+
+Una gráfica \(G\) consta de dos conjuntos, uno llamado el conjunto de
+vértices y otro llamado el conjunto de aristas.
+
+** Vértices transitivas
+
+** Orden y tamaño
+
+** Gráficas regulares
+
+*** Gráficas cubicas
+
+** Isomorfismos de gráficas
+
+* Complemento de una gráfica
+
+* El teorema fundamental
