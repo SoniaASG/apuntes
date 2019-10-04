@@ -1,0 +1,199 @@
+#+title: Árbol de menor costo
+
+#+options: toc:nil
+
+#+latex_header: \usepackage{listings}
+#+latex_header: \lstalias{ipython}{python}
+#+latex_header: \lstset{basicstyle=\small\ttfamily,frame=single}
+
+#+latex header: \usepackage{bera}
+
+#+property: header-args:ipython :exports bath :cache yes :session arbol :results raw drawer
+
+* Problema
+
+Supongamos que a cada arista de la gráfica completa \(k_{{n}\) se le 
+asigna un valor ("peso"). Si a cada subgrafica le asignamos un peso 
+igual a la suma de los pesos de sus aristas, consideremos el
+problema de encontrar el geerador de mor peso.
+
+* Algoritmo de Kruskal
+
+El algoritmo de Kruskal consiste en escoger sucesivamente las aristas
+más baratas con tal de que no formen ciclos con las aristas escogidas 
+previamente. En una gráfica con \(n\) vértices se puede demostrar que 
+tal algoritmo termina cuando hayamos escogido \(n-1\) aristas, y que
+el arbol así construido es tal que tiene costo minimo.
+
+* Implementacion en python
+
+Primeramente vamos a importar las bibliotecas que vamos a utilizar.
+
+#+begin_src ipython
+import networkx as nx
+import matplotlib.pyplot as plt
+from random import random as random
+from scipy.spatial.distance import euclidean
+#+end_src
+
+#+RESULTS[5d69a419394fafbdef4937fe2d03acbb397d45e5]:
+:results:
+# Out[14]:
+:end:
+
+
+A continuacion definiremos una grafica aleatoria con 10 vertices
+
+#+begin_src ipython
+g=nx.gnp_random_graph(10, 0.2)
+#+end_src
+
+#+RESULTS[23ce8f4d4dc33d1ed6e202cf50847754fffc5983]:
+:results:
+# Out[15]:
+:end:
+
+veremos si nuestra grafica es un bosque
+
+#+begin_src ipython
+nx.is_forest(g), nx.is_connected(g)
+#+end_src
+
+#+RESULTS[3378a426b714e953624b1fdd4a3f7b1757f4ddb9]:
+:results:
+# Out[16]:
+: (True, False)
+:end:
+
+A continuacion dibujaremos esta grafica
+
+#+begin_src ipython
+nx.draw(g, with_labbels=True)
+#+end_src
+
+#+RESULTS:
+:results:
+# Out[17]:
+[[file:./obipy-resources/2409R_B.png]]
+:end:
+
+
+Calcularemos  las componentes conexas 
+
+#+begin_src ipython
+list(nx.connected_components(g))
+#+end_src
+
+#+RESULTS[3ccdc913076b9cf21797ce19e74d4781d60c7f49]:
+:results:
+# Out[24]:
+: [{0, 1, 3, 4, 5, 6, 8, 9}, {2}, {7}]
+:end:
+
+
+veamos la componente que contiene al vértice 2.
+
+#+begin_src ipython
+nx.node_connected_component(g, 2)
+#+end_src
+
+#+RESULTS[19f4e1d0b17621a354223d849768e2ab2676e1e5]:
+:results:
+# Out[25]:
+: {2}
+:end:
+
+
+#+begin_src ipython
+t=nx.random_tree(10)
+nx.draw(t, with_labels=True)
+#+end_src
+
+
+
+
+* Puntos en el plano 
+
+Si tenemos dos listas de numeros de tamaño =n=, podemos dibujar =n=
+puntos en el plano, tomando las coordenadas =x= de la primera lista y
+las coordenadas =y= de la segunda.
+
+#+begin_src ipython
+plt.plot([1,1,2],[1,2,3],'ro')
+plt.axis([0,3,0,4])
+plt.show()
+#+end_src
+
+#+RESULTS[e3d1ceb3b0eba5c5bc19c2d9dea13c1ab31526f7]:
+:results:
+# Out[21]:
+
+[[file:./obipy-resources/2409eJI.png]]
+:end:
+
+vamos a definir una funcion que dibuje =n= puntos en el plano
+aleatoriamente
+
+#+begin_src ipython
+def puntos_en_el_plano(n):
+    listax=[]
+    listay=[]
+    for i in range(n):
+        listax.append(random())
+        listay.append(random())
+        return listax, listay
+#+end_src
+
+#+RESULTS[698af33ede4faec4c5d8142bd543c247130394b4]:
+:results:
+# Out[26]:
+:end:
+
+
+#+begin_src ipython
+puntos=puntos_en_el_plano(50)
+#+end_src
+
+#+RESULTS[f1c8901355625fd3ef85eb4bb4e2e1f5dd88c21c]:
+:results:
+# Out[36]:
+:end:
+
+
+#+begin_src ipython
+plt.plot(*puntos, 'ro')
+plt.show()
+#+end_src
+
+#+RESULTS[905a8202b859c735159f36bf5e1ee27aed64a959]:
+:results:
+# Out[29]:
+[[file:./obipy-resources/2409Foa.png]]
+:end:
+
+
+hagamos una funcion tal que a partir de dos listas produsca dos puntos 
+
+#+begin_src ipython
+def dibujo_puntos(listax,listay):
+    plt.plot(listax, listay, 'ro')
+    plt.axis([-0.1,1.1,-0.1,1.1])
+    plt.gca().set_aspect('equal')
+    plt.show()
+#+end_src
+
+#+RESULTS[2f55b6d64f3b81296390dceec827faf8d5d9e18b]:
+:results:
+# Out[37]:
+:end:
+
+
+#+begin_src ipython
+dibujo_puntos(*puntos)
+#+end_src
+
+#+RESULTS[b10c51e9c8460d62d9644fbfe1ec9bdfef50195d]:
+:results:
+# Out[38]:
+[[file:./obipy-resources/2409f8m.png]]
+:end:
