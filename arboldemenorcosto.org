@@ -197,3 +197,5 @@ dibujo_puntos(*puntos)
 # Out[38]:
 [[file:./obipy-resources/2409f8m.png]]
 :end:
+
+
